@@ -1,0 +1,6 @@
+@MarketApp_HostAddress = http://localhost:5151
+
+GET {{MarketApp_HostAddress}}/user/
+Accept: application/json
+
+###
