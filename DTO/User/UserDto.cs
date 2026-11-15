@@ -11,11 +11,11 @@ namespace WebApplication1.DTO.User
 
     public string Email { get; set; } = null!;
 
-    public string Type { get; set; } = UserTypes.employee.ToString()!;
+    public UserTypes Type { get; set; } = UserTypes.employee;
 
     public DateTime CreatedAt { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    // public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     }
 }

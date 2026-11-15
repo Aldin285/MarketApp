@@ -42,7 +42,7 @@ CREATE TABLE categories (
 CREATE TABLE articles (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     category_id bigint NOT NULL REFERENCES categories(id),
-    barcode varchar(13) UNIQUE,
+    barcode bigint(13) UNIQUE,
     title varchar(255) NOT NULL,
     description varchar(1000),
     price numeric(10, 2) NOT NULL CHECK (price >= 0),
@@ -78,6 +78,7 @@ INSERT INTO users (name, email, type) VALUES
 
 -- Supermarket categories.
 INSERT INTO categories (name, description) VALUES
+    ('Default', 'Aucune catégorie spécifique, utilisée par défaut pour les articles sans catégorie.'),
     ('Fruits et légumes', 'Produits frais : fruits, légumes et herbes'),
     ('Produits laitiers', 'Lait, yaourts, fromages et beurre'),
     ('Épicerie', 'Produits secs, conserves et boissons'),
@@ -88,19 +89,19 @@ INSERT INTO articles
     (category_id, barcode, title, description, price, unit, stock_quantity, minimum_stock)
 VALUES
     ((SELECT id FROM categories WHERE name = 'Fruits et légumes'),
-        '3760000000001', 'Pommes Gala', 'Pommes françaises en vrac', 2.49, 'kg', 80, 10),
+        '3760000000001', 'Pommes Gala', 'Pommes françaises en vrac', 2.49, 'Kg', 80, 10),
     ((SELECT id FROM categories WHERE name = 'Fruits et légumes'),
-        '3760000000002', 'Tomates grappe', 'Tomates fraîches en barquette de 500 g', 2.19, 'barquette', 35, 8),
+        '3760000000002', 'Tomates grappe', 'Tomates fraîches en barquette de 500 g', 2.19, 'Tray', 35, 8),
     ((SELECT id FROM categories WHERE name = 'Produits laitiers'),
-        '3760000000003', 'Lait demi-écrémé', 'Bouteille de lait demi-écrémé UHT, 1 L', 1.15, 'bouteille', 60, 12),
+        '3760000000003', 'Lait demi-écrémé', 'Bouteille de lait demi-écrémé UHT, 1 L', 1.15, 'Bottle', 60, 12),
     ((SELECT id FROM categories WHERE name = 'Produits laitiers'),
-        '3760000000004', 'Emmental râpé', 'Sachet d''emmental râpé, 200 g', 2.95, 'sachet', 25, 5),
+        '3760000000004', 'Emmental râpé', 'Sachet d''emmental râpé, 200 g', 2.95, 'Bag', 25, 5),
     ((SELECT id FROM categories WHERE name = 'Épicerie'),
-        '3760000000005', 'Pâtes penne', 'Paquet de pâtes de blé dur, 500 g', 1.49, 'paquet', 100, 20),
+        '3760000000005', 'Pâtes penne', 'Paquet de pâtes de blé dur, 500 g', 1.49, 'Pack', 100, 20),
     ((SELECT id FROM categories WHERE name = 'Épicerie'),
-        '3760000000006', 'Eau minérale', 'Pack de six bouteilles de 1,5 L', 3.60, 'pack', 40, 6),
+        '3760000000006', 'Eau minérale', 'Pack de six bouteilles de 1,5 L', 3.60, 'Pack', 40, 6),
     ((SELECT id FROM categories WHERE name = 'Boulangerie'),
-        '3760000000007', 'Baguette tradition', 'Baguette tradition cuite sur place', 1.10, 'pièce', 30, 5);
+        '3760000000007', 'Baguette tradition', 'Baguette tradition cuite sur place', 1.10, 'Piece', 30, 5);
 
 -- Test order with its lines.
 INSERT INTO orders (user_id, status)

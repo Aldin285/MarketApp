@@ -24,7 +24,18 @@ app.UseHttpsRedirection();
 // Setting up Swagger for API documentation
 app.UseSwagger();
 
-app.UseSwaggerUI();
+app.UseSwaggerUI(options =>
+{
+    // Configure the Swagger endpoint and UI settings
+    // Makes the Swagger UI available at the root URL (e.g., https://localhost:5001/index.html)
+    // Will keep it at the default path for now (https://localhost:5001/swagger/index.html) 
+
+    // options.SwaggerEndpoint("/swagger/v1/swagger.json", "Loan API v1");
+
+    // options.RoutePrefix = string.Empty;
+}
+
+);
 
 app.UseAuthorization();
 

@@ -5,3 +5,6 @@
 /Notes.md
 /Notes.txt
 /README.md
+obj/project.nuget.cache
+obj/Debug/net10.0/apphost.exe
+/obj

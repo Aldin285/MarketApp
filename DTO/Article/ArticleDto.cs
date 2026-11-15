@@ -6,9 +6,9 @@ namespace MarketApp.DTO.Article;
 
 public class ArticleDto
 {
-    public long Id { get; set; }
-
-    public long CategoryId { get; set; }
+    public long Id { get; set; } 
+    // The dafault value 1 refers to the default category "Dafault" which is created when the database is initialized. 
+    public long CategoryId { get; set; } = 1;
 
     public string? Barcode { get; set; }
 
@@ -16,20 +16,16 @@ public class ArticleDto
 
     public string? Description { get; set; }
 
-    public decimal Price { get; set; }
+    public decimal Price { get; set; } = 1.0m;
 
-    public string Unit { get; set; } = null!;
+    public Units Unit { get; set; } = Units.Piece;
 
-    public int StockQuantity { get; set; }
+    public int StockQuantity { get; set; } = 1;
 
-    public int MinimumStock { get; set; }
+    public int MinimumStock { get; set; } = 1;
 
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
 
-    public DateTime CreatedAt { get; set; }
-
-    public virtual Models.Category Category { get; set; } = null!;
-
-    public virtual ICollection<Models.OrderItem> OrderItems { get; set; } = new List<Models.OrderItem>();
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 }
