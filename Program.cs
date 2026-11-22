@@ -3,7 +3,54 @@ using MarketApp;
 using Microsoft.EntityFrameworkCore;
 using MarketApp.Models;
 
+// Load .env before ASP.NET Core creates its configuration and host.
+var envDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
+string? envFile = null;
+
+while (envDirectory is not null)
+{
+    var candidate = Path.Combine(envDirectory.FullName, ".env");
+    if (File.Exists(candidate))
+    {
+        envFile = candidate;
+        break;
+    }
+
+    envDirectory = envDirectory.Parent;
+}
+
+if (envFile is null)
+{
+    throw new InvalidOperationException("The required .env configuration file was not found.");
+}
+
+DotNetEnv.Env.Load(envFile);
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Do not use appsettings.json or launchSettings.json for application configuration.
+builder.Configuration.Sources.Clear();
+builder.Configuration.AddEnvironmentVariables();
+
+var databaseHost = Environment.GetEnvironmentVariable("DATABASELINK");
+var databasePort = Environment.GetEnvironmentVariable("DATABASEPORT") ?? "5432";
+var databaseUser = Environment.GetEnvironmentVariable("DATABASEUSER");
+var databasePassword = Environment.GetEnvironmentVariable("DATABASEPASSWORD");
+var databaseName = Environment.GetEnvironmentVariable("DATABASENAME");
+
+if (string.IsNullOrWhiteSpace(databaseHost)
+    || string.IsNullOrWhiteSpace(databaseUser)
+    || string.IsNullOrWhiteSpace(databasePassword)
+    || string.IsNullOrWhiteSpace(databaseName))
+{
+    throw new InvalidOperationException(
+        "Missing database configuration. Set DATABASELINK, DATABASEUSER, DATABASEPASSWORD, and DATABASENAME in .env.");
+}
+
+// Set the connection string for the database in the configuration
+builder.Configuration["ConnectionStrings:DefaultConnection"] =
+    $"Host={databaseHost};Port={databasePort};Database={databaseName};Username={databaseUser};Password={databasePassword}";
+
 Startup startup = new Startup(builder.Configuration);
 
 startup.ConfigureServices(builder.Services);
